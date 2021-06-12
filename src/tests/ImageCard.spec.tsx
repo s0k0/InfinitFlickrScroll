@@ -12,7 +12,7 @@ describe("ImageCard Component", () => {
   let favourites = ["1234"];
   let mockClick = jest.fn();
 
-  test("renders main container logo", () => {
+  test("renders image with given alt", () => {
     render(
       <ImageCard
         id={image.id}
