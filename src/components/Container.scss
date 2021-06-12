@@ -1,6 +1,15 @@
+@import "../App.scss";
+
 .container {
   height: 300;
   overflow: "auto";
+  .headline {
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    align-items: baseline;
+    font-size: xx-large;
+  }
 }
 
 .image-list {
@@ -11,4 +20,28 @@
 
 .logo {
   height: 36px;
+  margin-right: 12px;
+}
+
+$offset-sticky-header: 72px;
+
+@media (max-width: $breakpoint-tablet) {
+  .container {
+    background: white;
+    .headline {
+      display: flex;
+        justify-content: center;
+      font-size: large;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      height: $offset-sticky-header;
+      z-index: 99;
+      background: white;
+      border-bottom: 1px solid lightgray;
+    }
+    .image-list {
+        padding-top: $offset-sticky-header;
+    }
+  }
 }

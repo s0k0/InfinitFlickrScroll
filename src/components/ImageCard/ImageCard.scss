@@ -1,3 +1,5 @@
+@import "../../App.scss";
+
 .image-card {
   position: relative;
   display: flex;
@@ -5,12 +7,22 @@
   border-radius: 10px;
   margin: 12px;
   .thumbnail {
-    width: 200px;
-    height: 200px;
+    width: 300px;
+    height: 300px;
     object-fit: cover;
     transition: box-shadow 0.3s;
     border: 1px solid #ccc;
     border-radius: 10px;
+  }
+  .favourite {
+    position: absolute;
+    top: 10%;
+    left: 90%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    border: none;
+    cursor: pointer;
+    background: transparent;
   }
 }
 
@@ -18,33 +30,22 @@
   box-shadow: 0 0 11px rgba(33, 33, 33, 0.8);
 }
 
-.image-card .favourite {
-  position: absolute;
-  top: 10%;
-  left: 90%;
-  transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  border: none;
-  cursor: pointer;
-  background: transparent;
-}
-
 #heart {
   position: relative;
-  width: 20px;
-  height: 18px;
+  width: 50px;
+  height: 45px;
 }
 #heart:before,
 #heart:after {
   position: absolute;
   content: "";
-  left: 12px;
+  left: 25px;
   top: 0;
-  width: 12px;
-  height: 16px;
+  width: 25px;
+  height: 40px;
   background: transparent;
   background-color: lightgray;
-  border-radius: 10px 10px 0 0;
+  border-radius: 25px 25px 0 0;
   transform: rotate(-45deg);
   transform-origin: 0 100%;
 }
@@ -55,11 +56,45 @@
 }
 
 #heart.active:after,
-#heart.active:before {
-  background-color: red;
-}
-
+#heart.active:before,
 #heart:hover:after,
 #heart:hover:before {
   background-color: red;
+}
+
+@media (max-width: $breakpoint-tablet) {
+  .image-card .thumbnail {
+    width: 100%;
+  }
+  #heart {
+    position: relative;
+    width: 25px;
+    height: 22px;
+  }
+  #heart:before,
+  #heart:after {
+    position: absolute;
+    content: "";
+    left: 12px;
+    top: 0;
+    width: 12px;
+    height: 20px;
+    background: transparent;
+    background-color: lightgray;
+    border-radius: 12px 12px 0 0;
+    transform: rotate(-45deg);
+    transform-origin: 0 100%;
+  }
+  #heart:after {
+    left: 0;
+    transform: rotate(45deg);
+    transform-origin: 100% 100%;
+  }
+}
+
+@media (max-width: $breakpoint-mobile) {
+  .image-card .thumbnail {
+    width: 200px;
+    height: 200px;
+  }
 }

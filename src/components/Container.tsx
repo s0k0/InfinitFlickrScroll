@@ -24,12 +24,12 @@ function Container() {
     fetch(
       `https://api.flickr.com/services/rest/?method=flickr.photos.search&text=${query}&media=photos&api_key=${config.apiKey}&per_page=24&page=${page}&format=json&nojsoncallback=true`
     )
-      .then((response) => response.json())
-      .then((data) => {
+      .then(response => response.json())
+      .then(data => {
         setImages(images.concat(data.photos.photo));
         setPage(page + 1);
       })
-      .catch((error) => {
+      .catch(error => {
         console.log("Error fetching data", error);
       });
   };
@@ -37,7 +37,7 @@ function Container() {
   const hanldeClick = (id: string) => {
     const updateFavourites =
       favourites.indexOf(id) > -1
-        ? favourites.filter((fav) => fav !== id)
+        ? favourites.filter(fav => fav !== id)
         : [...favourites, id];
     saveFavourites(updateFavourites);
     setFavourites(updateFavourites);
@@ -52,9 +52,10 @@ function Container() {
   //TODO: replace infinite scroll with self made solution
   return (
     <div className="container">
-      <h1>
-        <img className="logo" src={logo} alt="flickr-logo" />: "{query}"
-      </h1>
+      <div className="headline">
+        <img className="logo" src={logo} alt="flickr-logo" />
+        <h1> "{query}"</h1>
+      </div>
       <InfiniteScroll
         className="image-list"
         dataLength={images.length}
@@ -62,7 +63,7 @@ function Container() {
         hasMore={true}
         loader={<h4>Loading...</h4>}
       >
-        {images.map((image) => (
+        {images.map(image => (
           <ImageCard
             title={image.title}
             id={image.id}

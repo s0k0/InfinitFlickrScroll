@@ -1,5 +1,19 @@
+$breakpoint-desktop: 1366px;
+$breakpoint-tablet: 768px;
+$breakpoint-mobile: 350px;
+
+body {
+  margin: 0;
+}
 .infinit-scroll {
   text-align: center;
   background: lightgray;
   padding: 24px;
+}
+
+@media (max-width: $breakpoint-tablet) {
+  .infinit-scroll {
+    padding: 0;
+    background: white;
+  }
 }
