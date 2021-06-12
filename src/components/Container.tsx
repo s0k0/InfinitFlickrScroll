@@ -20,7 +20,6 @@ function Container() {
   const [favourites, setFavourites] = useState<string[]>([]);
   const [page, setPage] = useState<number>(1);
 
-  //TODO: add linting and code formatting
   const getImages = () => {
     fetch(
       `https://api.flickr.com/services/rest/?method=flickr.photos.search&text=${query}&media=photos&api_key=${config.apiKey}&per_page=24&page=${page}&format=json&nojsoncallback=true`
@@ -54,8 +53,7 @@ function Container() {
   return (
     <div className="container">
       <h1>
-        {" "}
-        <img className="logo" src={logo} />: "{query}"
+        <img className="logo" src={logo} alt="flickr-logo" />: "{query}"
       </h1>
       <InfiniteScroll
         className="image-list"
