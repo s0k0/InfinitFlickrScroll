@@ -30,7 +30,7 @@ $offset-sticky-header: 72px;
     background: white;
     .headline {
       display: flex;
-        justify-content: center;
+      justify-content: center;
       font-size: large;
       position: fixed;
       top: 0;
@@ -41,7 +41,7 @@ $offset-sticky-header: 72px;
       border-bottom: 1px solid lightgray;
     }
     .image-list {
-        padding-top: $offset-sticky-header;
+      padding-top: $offset-sticky-header;
     }
   }
 }
