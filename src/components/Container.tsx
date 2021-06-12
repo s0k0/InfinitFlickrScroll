@@ -1,39 +1,43 @@
 import * as config from '../config.json';
-import axios from 'axios';
 import { ImageCard, ImageCardProps } from './ImageCard/ImageCard'
 import React, { useState, useEffect } from 'react';
 import './Container.scss'
 import logo from '../Flickr_logo.png'
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 function Container() {
-  const [loading, setLoading] = useState<boolean>(false)
+  const query = 'Gustav Klimt'
   const [images, setImages] = useState<ImageCardProps[]>([])
-  const [query, setQuery] = useState<string>('Gustav Klimt')
-
-  const getRecentImages = () => {
-    setLoading(true)
-    axios.get(`https://api.flickr.com/services/rest/?method=flickr.photos.search&text=${query}&media=photos&api_key=${config.apiKey}&per_page=24&page=1&format=json&nojsoncallback=true`)
-      .then(response => {
-        setLoading(false)
-        setImages(response.data.photos.photo)
+  const [page, setPage] = useState<number>(1)
+  //TODO: saveFavourite() in local storage
+  const getImages = () => {
+    fetch(`https://api.flickr.com/services/rest/?method=flickr.photos.search&text=${query}&media=photos&api_key=${config.apiKey}&per_page=24&page=${page}&format=json&nojsoncallback=true`)
+      .then(response => response.json())
+      .then(data => {
+        setImages(images.concat(data.photos.photo))
+        setPage(page + 1)
       })
       .catch(error => {
-        console.log('Error fetching and parsing data', error);
-        setLoading(false)
+        console.log('Error fetching data', error);
       })
   }
+
   useEffect(() => {
-    getRecentImages()
+    getImages()
   }, [])
 
-
   return (
-    <div className="image-container">
+    <div className="container">
       <h1> <img className="logo" src={logo} />: "{query}"</h1>
-      <div className="image-list">
-        {loading ? <h5>Please wait...</h5> :
-          images.map(image => ImageCard(image))}
-      </div>
+      <InfiniteScroll
+        className="image-list"
+        dataLength={images.length}
+        next={getImages}
+        hasMore={true}
+        loader={<h4>Loading...</h4>}
+      >
+        {images.map(image => ImageCard(image))}
+      </InfiniteScroll>
     </div>
   )
 }

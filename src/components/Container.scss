@@ -1,5 +1,6 @@
-.image-container {
-  height: 100%;
+.container {
+  height: 300;
+  overflow: "auto";
 }
 
 .image-list {
@@ -9,5 +10,5 @@
 }
 
 .logo {
-  width: 84px;
+  height: 36px;
 }
