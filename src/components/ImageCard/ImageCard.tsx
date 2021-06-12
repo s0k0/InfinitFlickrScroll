@@ -1,22 +1,36 @@
-import React from 'react';
-import './ImageCard.scss'
+import React from "react";
+import "./ImageCard.scss";
 
 export interface ImageCardProps {
-    farm: number;
-    server: string;
-    id: string;
-    secret: string;
-    title: string;
+  title: string;
+  id: string;
+  farm: number;
+  secret: string;
+  server: string;
+  favourites: string[];
+  onClick: (id: string) => void;
 }
 
-function ImageCard(image: ImageCardProps) {
+const ImageCard = ({
+  title,
+  id,
+  farm,
+  secret,
+  server,
+  favourites,
+  onClick,
+}: ImageCardProps) => {
+  const isFavourite = favourites.indexOf(id) > -1;
 
-    const url = `https://farm${image.farm}.staticflickr.com/${image.server}/${image.id}_${image.secret}.jpg`;
-    return (
-        <div className="image-card">
-            <img className="thumbnail" key={image.id} src={url} alt={image.title} />
-        </div>
-    )
-}
+  const url = `https://farm${farm}.staticflickr.com/${server}/${id}_${secret}.jpg`;
+  return (
+    <div className="image-card">
+      <img className="thumbnail" key={id} src={url} alt={title} />
+      <button className="favourite" onClick={() => onClick(id)}>
+        <div className={isFavourite ? "active" : "inactive"} id="heart" />
+      </button>
+    </div>
+  );
+};
 
-export { ImageCard }; 
+export { ImageCard };
