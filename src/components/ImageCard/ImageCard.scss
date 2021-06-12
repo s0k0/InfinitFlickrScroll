@@ -1,0 +1,16 @@
+.image-card {
+  .img-thumbnail {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    transition: box-shadow 0.3s;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+  }
+  border-radius: 10px;
+  margin: 12px;
+}
+
+.image-card:hover {
+  box-shadow: 0 0 11px rgba(33, 33, 33, 0.2);
+}

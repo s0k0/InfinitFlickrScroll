@@ -1,4 +1,5 @@
 import React from 'react';
+import './ImageCard.scss'
 
 export interface ImageCardProps {
     farm: number;
@@ -12,7 +13,9 @@ function ImageCard(image: ImageCardProps) {
 
     const url = `https://farm${image.farm}.staticflickr.com/${image.server}/${image.id}_${image.secret}.jpg`;
     return (
-        <img key={image.id} src={url} alt={image.title}/>
+        <div className="image-card">
+            <img className="img-thumbnail" key={image.id} src={url} alt={image.title} />
+        </div>
     )
 }
 
