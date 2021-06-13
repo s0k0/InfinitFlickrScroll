@@ -1,6 +1,6 @@
 import * as config from "../config.json";
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import logo from "../Flickr_logo.png";
+import logo from "../assets/Flickr_logo.png";
 import "./Container.scss";
 import { ImageCard } from "./ImageCard/ImageCard";
 import { getFavourites, saveFavourites } from "./helpers";
