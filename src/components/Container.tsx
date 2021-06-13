@@ -5,12 +5,13 @@ import "./Container.scss";
 import { ImageCard } from "./ImageCard/ImageCard";
 import { getFavourites, saveFavourites } from "./helpers";
 
-interface ImageProps {
+export interface ImageProps {
   id: string;
   farm: number;
   secret: string;
   title: string;
   server: string;
+  ownername: string;
 }
 
 function Container() {
@@ -23,7 +24,7 @@ function Container() {
   const getImages = () => {
     setLoading(true);
     fetch(
-      `https://api.flickr.com/services/rest/?method=flickr.photos.search&text=${query}&media=photos&api_key=${config.apiKey}&per_page=${config.pageSize}&page=${page}&format=json&nojsoncallback=true`
+      `https://api.flickr.com/services/rest/?method=flickr.photos.search&text=${query}&media=photos&api_key=${config.apiKey}&per_page=${config.pageSize}&page=${page}&extras=owner_name&format=json&nojsoncallback=true`
     )
       .then(response => response.json())
       .then(data => {
@@ -70,7 +71,7 @@ function Container() {
     <div className="container">
       <div className="headline">
         <img className="logo" src={logo} alt="flickr-logo" />
-        <h1> "{query}"</h1>
+        <h1> {query}</h1>
       </div>
       <div className="image-list">
         {loading && images.length === 0 ? (
@@ -84,6 +85,7 @@ function Container() {
                 farm={image.farm}
                 secret={image.secret}
                 server={image.server}
+                owner={image.ownername}
                 favourites={favourites}
                 onClick={() => handleClick(image.id)}
               />

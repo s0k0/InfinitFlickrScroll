@@ -7,6 +7,7 @@ export interface ImageCardProps {
   farm: number;
   secret: string;
   server: string;
+  owner: string;
   favourites: string[];
   onClick: (id: string) => void;
 }
@@ -17,6 +18,7 @@ const ImageCard = ({
   farm,
   secret,
   server,
+  owner,
   favourites,
   onClick,
 }: ImageCardProps) => {
@@ -30,7 +32,11 @@ const ImageCard = ({
         <button className="favourite" onClick={() => onClick(id)} aria-label="favourite">
             <div className={isFavourite ? "active" : "inactive"} id="heart" />
         </button>
-        <div className="title">{title}</div>
+        <div className="caption">
+          <p>{title}</p>
+          <hr/>
+          <p>{owner}</p>
+        </div>
         </div>
     </div>
   );

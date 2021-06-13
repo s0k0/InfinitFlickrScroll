@@ -8,7 +8,8 @@ describe("ImageCard Component", () => {
     title: "This is a dummy",
     server: "1",
     farm: 2,
-    secret: "secret"
+    secret: "secret",
+    owner: "Owner"
   };
   let favourites = ["1234"];
   let mockClick = jest.fn();
@@ -23,6 +24,7 @@ describe("ImageCard Component", () => {
         server={image.server}
         farm={image.farm}
         secret={image.secret}
+        owner={image.owner}
         favourites={favourites}
         onClick={mockClick}
       />
@@ -45,6 +47,7 @@ describe("ImageCard Component", () => {
         server={image.server}
         farm={image.farm}
         secret={image.secret}
+        owner={image.owner}
         favourites={favourites}
         onClick={mockClick}
       />
