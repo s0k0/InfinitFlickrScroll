@@ -24,10 +24,10 @@ const ImageCard = ({
 
   const url = `https://farm${farm}.staticflickr.com/${server}/${id}_${secret}.jpg`;
   return (
-    <div className="image-card">
-      <img className={isFavourite ? "active thumbnail" : "thumbnail"} key={id} src={url} alt={title} />
+    <div className={isFavourite ? "active image-card" : "image-card"}>
+      <img className="thumbnail" key={id} src={url} alt={title} />
       <div className="overlay">
-        <button className="favourite" onClick={() => onClick(id)}>
+        <button className="favourite" onClick={() => onClick(id)} aria-label="favourite">
             <div className={isFavourite ? "active" : "inactive"} id="heart" />
         </button>
         <div className="title">{title}</div>

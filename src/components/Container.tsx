@@ -1,8 +1,9 @@
 import * as config from "../config.json";
-import { ImageCard } from "./ImageCard/ImageCard";
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import "./Container.scss";
 import logo from "../Flickr_logo.png";
+import "./Container.scss";
+import { ImageCard } from "./ImageCard/ImageCard";
+import { getFavourites, saveFavourites } from "./helpers";
 
 interface ImageProps {
   id: string;
@@ -11,17 +12,6 @@ interface ImageProps {
   title: string;
   server: string;
 }
-
-const saveFavourites = (favs: string[]): void => {
-  localStorage.setItem("favourites", JSON.stringify(favs));
-};
-
-const getFavourites = (): string[] => {
-  const favourites = localStorage.getItem("favourites");
-  return favourites ? JSON.parse(favourites) : [];
-};
-
-const MAX_PAGE_LIMIT = 25;
 
 function Container() {
   const query = "Gustav Klimt";
@@ -33,26 +23,26 @@ function Container() {
   const getImages = () => {
     setLoading(true);
     fetch(
-      `https://api.flickr.com/services/rest/?method=flickr.photos.search&text=${query}&media=photos&api_key=${config.apiKey}&per_page=24&page=${page}&format=json&nojsoncallback=true`
+      `https://api.flickr.com/services/rest/?method=flickr.photos.search&text=${query}&media=photos&api_key=${config.apiKey}&per_page=${config.pageSize}&page=${page}&format=json&nojsoncallback=true`
     )
-      .then((response) => response.json())
-      .then((data) => {
+      .then(response => response.json())
+      .then(data => {
         setImages(images.concat(data.photos.photo));
         setPage(page + 1);
         setLoading(false);
       })
-      .catch((error) => {
+      .catch(error => {
         console.log("Error fetching data", error);
       });
   };
 
   const observer = useRef<IntersectionObserver>();
   const lastImageElementRef = useCallback(
-    (node) => {
+    node => {
       if (loading) return;
       if (observer.current) observer.current.disconnect();
-      observer.current = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting && page < MAX_PAGE_LIMIT) {
+      observer.current = new IntersectionObserver(entries => {
+        if (entries[0].isIntersecting && page < config.pageLimit) {
           getImages();
         }
       });
@@ -61,10 +51,10 @@ function Container() {
     [loading]
   );
 
-  const hanldeClick = (id: string) => {
+  const handleClick = (id: string) => {
     const updateFavourites =
       favourites.indexOf(id) > -1
-        ? favourites.filter((fav) => fav !== id)
+        ? favourites.filter(fav => fav !== id)
         : [...favourites, id];
     saveFavourites(updateFavourites);
     setFavourites(updateFavourites);
@@ -86,35 +76,19 @@ function Container() {
         {loading && images.length === 0 ? (
           <h3> Loading ... </h3>
         ) : (
-          images.map((image, index) => {
-            if (index + 1 === images.length) {
-              return (
-                <div ref={lastImageElementRef}>
-                  <ImageCard
-                    title={image.title}
-                    id={image.id}
-                    farm={image.farm}
-                    secret={image.secret}
-                    server={image.server}
-                    favourites={favourites}
-                    onClick={() => hanldeClick(image.id)}
-                  />
-                </div>
-              );
-            } else {
-              return (
-                <ImageCard
-                  title={image.title}
-                  id={image.id}
-                  farm={image.farm}
-                  secret={image.secret}
-                  server={image.server}
-                  favourites={favourites}
-                  onClick={() => hanldeClick(image.id)}
-                />
-              );
-            }
-          })
+          images.map((image, index) => (
+            <div ref={index + 1 === images.length ? lastImageElementRef : null}>
+              <ImageCard
+                title={image.title}
+                id={image.id}
+                farm={image.farm}
+                secret={image.secret}
+                server={image.server}
+                favourites={favourites}
+                onClick={() => handleClick(image.id)}
+              />
+            </div>
+          ))
         )}
       </div>
     </div>

@@ -1,10 +1,16 @@
+import React from "react";
 import { Container } from "../components/Container";
-import { render, screen } from "@testing-library/react";
+import { render } from "@testing-library/react";
 
 describe("Container Component", () => {
   test("renders and contains logo", () => {
-    render(<Container />);
-    const flickrLogo = screen.getByAltText(/flickr-logo/i);
+    //Given
+    const { getByAltText } = render(<Container />);
+
+    //When
+    const flickrLogo = getByAltText(/flickr-logo/i);
+
+    //Then
     expect(flickrLogo).toBeInTheDocument();
   });
 });
