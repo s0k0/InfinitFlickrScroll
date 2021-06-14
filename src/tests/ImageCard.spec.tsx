@@ -9,7 +9,7 @@ describe("ImageCard Component", () => {
     server: "1",
     farm: 2,
     secret: "secret",
-    owner: "Owner"
+    owner: "Owner",
   };
   let favourites = ["1234"];
   let mockClick = jest.fn();

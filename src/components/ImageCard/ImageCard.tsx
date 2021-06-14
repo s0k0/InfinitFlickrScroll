@@ -29,15 +29,19 @@ const ImageCard = ({
     <div className={isFavourite ? "active image-card" : "image-card"}>
       <img className="thumbnail" key={id} src={url} alt={title} />
       <div className="overlay">
-        <button className="favourite" onClick={() => onClick(id)} aria-label="favourite">
-            <div className={isFavourite ? "active" : "inactive"} id="heart" />
+        <button
+          className="favourite"
+          onClick={() => onClick(id)}
+          aria-label="favourite"
+        >
+          <div className={isFavourite ? "active" : "inactive"} id="heart" />
         </button>
         <div className="caption">
           <p>{title}</p>
-          <hr/>
+          <hr />
           <p>{owner}</p>
         </div>
-        </div>
+      </div>
     </div>
   );
 };

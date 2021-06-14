@@ -26,36 +26,37 @@ function Container() {
     fetch(
       `https://api.flickr.com/services/rest/?method=flickr.photos.search&text=${query}&media=photos&api_key=${config.apiKey}&per_page=${config.pageSize}&page=${page}&extras=owner_name&format=json&nojsoncallback=true`
     )
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         setImages(images.concat(data.photos.photo));
         setPage(page + 1);
         setLoading(false);
       })
-      .catch(error => {
+      .catch((error) => {
         console.log("Error fetching data", error);
       });
   };
 
   const observer = useRef<IntersectionObserver>();
   const lastImageElementRef = useCallback(
-    node => {
+    (node) => {
       if (loading) return;
       if (observer.current) observer.current.disconnect();
-      observer.current = new IntersectionObserver(entries => {
+      observer.current = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting && page < config.pageLimit) {
           getImages();
         }
       });
       if (node) observer.current.observe(node);
     },
-    [loading]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [loading, page]
   );
 
   const handleClick = (id: string) => {
     const updateFavourites =
       favourites.indexOf(id) > -1
-        ? favourites.filter(fav => fav !== id)
+        ? favourites.filter((fav) => fav !== id)
         : [...favourites, id];
     saveFavourites(updateFavourites);
     setFavourites(updateFavourites);
@@ -65,6 +66,7 @@ function Container() {
     getImages();
     const updateFavourites = getFavourites();
     setFavourites(updateFavourites);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
