@@ -21,7 +21,7 @@ function Container() {
   const [favourites, setFavourites] = useState<string[]>([]);
   const [page, setPage] = useState<number>(1);
 
-  const getImages = () => {
+  const getImages = useCallback(() => {
     setLoading(true);
     fetch(
       `https://api.flickr.com/services/rest/?method=flickr.photos.search&text=${query}&media=photos&api_key=${config.apiKey}&per_page=${config.pageSize}&page=${page}&extras=owner_name&format=json&nojsoncallback=true`
@@ -35,7 +35,7 @@ function Container() {
       .catch((error) => {
         console.log("Error fetching data", error);
       });
-  };
+  }, [images, page]);
 
   const observer = useRef<IntersectionObserver>();
   const lastImageElementRef = useCallback(
@@ -49,8 +49,7 @@ function Container() {
       });
       if (node) observer.current.observe(node);
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [loading, page]
+    [loading, page, getImages]
   );
 
   const handleClick = (id: string) => {
@@ -66,8 +65,7 @@ function Container() {
     getImages();
     const updateFavourites = getFavourites();
     setFavourites(updateFavourites);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [getImages]);
 
   return (
     <div className="container">
