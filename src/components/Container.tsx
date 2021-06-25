@@ -29,13 +29,12 @@ function Container() {
       .then((response) => response.json())
       .then((data) => {
         setImages(images.concat(data.photos.photo));
-        setPage(page + 1);
         setLoading(false);
       })
       .catch((error) => {
         console.log("Error fetching data", error);
       });
-  }, [images, page]);
+  }, [page]);
 
   const observer = useRef<IntersectionObserver>();
   const lastImageElementRef = useCallback(
@@ -44,12 +43,12 @@ function Container() {
       if (observer.current) observer.current.disconnect();
       observer.current = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting && page < config.pageLimit) {
-          getImages();
+          setPage(page + 1);
         }
       });
       if (node) observer.current.observe(node);
     },
-    [loading, page, getImages]
+    [loading, page]
   );
 
   const handleClick = (id: string) => {
@@ -78,7 +77,10 @@ function Container() {
           <h3> Loading ... </h3>
         ) : (
           images.map((image, index) => (
-            <div ref={index + 1 === images.length ? lastImageElementRef : null}>
+            <div
+              key={`${image.id}-${index}`}
+              ref={index + 1 === images.length ? lastImageElementRef : null}
+            >
               <ImageCard
                 title={image.title}
                 id={image.id}
